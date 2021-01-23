@@ -5,15 +5,14 @@
 
   box-sizing: border-box;
 
-  display: flex;
-  flex-direction: column;
-
   position: relative;
 }
 
 .App > div {
-  flex: 1;
+  height: 5em;
   border: 1px solid lightgray;
+
+  box-sizing: border-box;
 }
 
 .App > div:hover:not(.selected-region) {
