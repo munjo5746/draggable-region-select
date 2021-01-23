@@ -13,3 +13,8 @@
   flex: 1;
   border: 1px solid lightgray;
 }
+
+.App > div:hover {
+  cursor: pointer;
+  background: lightgray;
+}
