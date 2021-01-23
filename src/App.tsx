@@ -53,16 +53,19 @@ export default function App() {
 
               if (endBlock.order !== order) {
                 if (endBlock.order < order) {
-                  console.log("down");
+                  setEndBlock({
+                    top,
+                    order
+                  });
                 } else {
-                  console.log("up");
+                  // swap start and end blocks
+                  setStartBlock({
+                    top,
+                    order
+                  });
                 }
               }
 
-              setEndBlock({
-                top,
-                order
-              });
               // if (dragging) setNumDragBlocks(numDragBlocks + 1);
             }}
             onMouseUp={() => {
