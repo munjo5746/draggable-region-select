@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./styles.css";
 
-type Position = {
+type Block = {
   top: number;
-  left: number;
+  order: number;
 };
 
 const HEIGHT = 5; // em
 export default function App() {
-  const [startPosition, setStartPosition] = useState<Position>();
+  const [startBlock, setStartBlock] = useState<Block>();
+  const [endBlock, setEndBlock] = useState<Block>();
   const [dragging, setDragging] = useState<boolean>(false);
   const [numDragBlocks, setNumDragBlocks] = useState<number>(1);
   const [regionHeight, setRegionHeight] = useState<number>(HEIGHT);
@@ -19,19 +20,50 @@ export default function App() {
         return (
           <div
             key={num}
+            data-order={num}
             onMouseDown={(e) => {
-              const {
-                left,
-                top
-              } = (e.target as HTMLDivElement).getBoundingClientRect();
-              setStartPosition({
-                left,
-                top
+              const element = e.target as HTMLDivElement;
+              const { top } = element.getBoundingClientRect();
+              const orderAttr = element.getAttribute("data-order");
+              if (!orderAttr) throw new Error('The "order" must be present.');
+
+              const order = Number.parseInt(orderAttr, 10);
+
+              setStartBlock({
+                top,
+                order
+              });
+              setEndBlock({
+                top,
+                order
               });
               setDragging(true);
             }}
-            onMouseOver={() => {
-              if (dragging) setNumDragBlocks(numDragBlocks + 1);
+            onMouseOver={(e) => {
+              if (!dragging || !startBlock || !endBlock) return;
+
+              const element = e.target as HTMLDivElement;
+              const { top } = element.getBoundingClientRect();
+              const orderAttr = element.getAttribute("data-order");
+              if (!orderAttr) throw new Error('The "order" must be present.');
+
+              const order = Number.parseInt(orderAttr, 10);
+
+              if (endBlock.order === order) return;
+
+              if (endBlock.order !== order) {
+                if (endBlock.order < order) {
+                  console.log("down");
+                } else {
+                  console.log("up");
+                }
+              }
+
+              setEndBlock({
+                top,
+                order
+              });
+              // if (dragging) setNumDragBlocks(numDragBlocks + 1);
             }}
             onMouseUp={() => {
               setDragging(false);
@@ -41,10 +73,10 @@ export default function App() {
       })}
       <div
         style={
-          startPosition
+          startBlock
             ? {
                 display: "block",
-                top: startPosition.top,
+                top: startBlock.top,
                 height: `${regionHeight * numDragBlocks}em`,
                 pointerEvents: "none"
               }
