@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import "./styles.css";
 
 type Block = {
@@ -49,8 +49,6 @@ export default function App() {
 
               const order = Number.parseInt(orderAttr, 10);
 
-              if (endBlock.order === order) return;
-
               if (endBlock.order !== order) {
                 if (endBlock.order < order) {
                   console.log("down");
@@ -73,11 +71,13 @@ export default function App() {
       })}
       <div
         style={
-          startBlock
+          startBlock && endBlock
             ? {
                 display: "block",
                 top: startBlock.top,
-                height: `${regionHeight * numDragBlocks}em`,
+                height: `${
+                  regionHeight * (endBlock.order - startBlock.order) + HEIGHT
+                }em`,
                 pointerEvents: "none"
               }
             : { display: "none" }
