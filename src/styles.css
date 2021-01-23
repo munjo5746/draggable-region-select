@@ -7,6 +7,8 @@
 
   display: flex;
   flex-direction: column;
+
+  position: relative;
 }
 
 .App > div {
@@ -14,7 +16,17 @@
   border: 1px solid lightgray;
 }
 
-.App > div:hover {
+.App > div:hover:not(.selected-region) {
   cursor: pointer;
   background: lightgray;
+}
+
+.selected-region {
+  position: absolute;
+  width: 95%;
+  height: 10em;
+
+  transform: translateX(-50%);
+  left: 50%;
+  background: darkcyan;
 }
