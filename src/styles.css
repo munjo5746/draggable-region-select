@@ -1,0 +1,15 @@
+.App {
+  width: 20em;
+  height: 30em;
+  border: 1px solid gray;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.App > div {
+  flex: 1;
+  border: 1px solid lightgray;
+}
