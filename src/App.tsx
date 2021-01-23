@@ -65,8 +65,6 @@ export default function App() {
                   });
                 }
               }
-
-              // if (dragging) setNumDragBlocks(numDragBlocks + 1);
             }}
             onMouseUp={() => {
               setDragging(false);
