@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import "./styles.css";
 
 type Block = {
@@ -14,6 +14,16 @@ export default function App() {
   const [numDragBlocks, setNumDragBlocks] = useState<number>(1);
   const [regionHeight, setRegionHeight] = useState<number>(HEIGHT);
 
+  const getBlockData = useCallback((div: HTMLDivElement) => {
+    const { top } = div.getBoundingClientRect();
+    const orderAttr = div.getAttribute("data-order");
+
+    if (!orderAttr) throw new Error('The "order" must be present.');
+
+    const order = Number.parseInt(orderAttr, 10);
+
+    return { top, order };
+  }, []);
   return (
     <div className="App">
       {[...Array(6).keys()].map((num) => {
@@ -23,11 +33,7 @@ export default function App() {
             data-order={num}
             onMouseDown={(e) => {
               const element = e.target as HTMLDivElement;
-              const { top } = element.getBoundingClientRect();
-              const orderAttr = element.getAttribute("data-order");
-              if (!orderAttr) throw new Error('The "order" must be present.');
-
-              const order = Number.parseInt(orderAttr, 10);
+              const { top, order } = getBlockData(element);
 
               setStartBlock({
                 top,
@@ -43,11 +49,7 @@ export default function App() {
               if (!dragging || !startBlock || !endBlock) return;
 
               const element = e.target as HTMLDivElement;
-              const { top } = element.getBoundingClientRect();
-              const orderAttr = element.getAttribute("data-order");
-              if (!orderAttr) throw new Error('The "order" must be present.');
-
-              const order = Number.parseInt(orderAttr, 10);
+              const { top, order } = getBlockData(element);
 
               if (endBlock.order !== order) {
                 if (endBlock.order < order) {
