@@ -10,6 +10,9 @@ const HEIGHT = 5; // em
 export default function App() {
   const [startBlock, setStartBlock] = useState<Block>();
   const [endBlock, setEndBlock] = useState<Block>();
+  const [draggingDirection, setDraggingDirection] = useState<
+    "upward" | "downward"
+  >();
   const [dragging, setDragging] = useState<boolean>(false);
 
   const getBlockData = useCallback((div: HTMLDivElement) => {
@@ -26,8 +29,10 @@ export default function App() {
   if (startBlock && endBlock) {
     selectedRegionStyle = {
       display: "block",
-      top: startBlock.top,
-      height: `${HEIGHT * (endBlock.order - startBlock.order) + HEIGHT}em`
+      top: draggingDirection === "downward" ? startBlock.top : endBlock.top,
+      height: `${
+        HEIGHT * Math.abs(endBlock.order - startBlock.order) + HEIGHT
+      }em`
     };
 
     if (dragging) {
@@ -69,27 +74,16 @@ export default function App() {
 
               if (endBlock.order === order) return;
 
-              if (endBlock.order < order) {
-                setEndBlock({
-                  top,
-                  order
-                });
-              } else {
-                // cursor stays on the same block as the endBlock
-                //  or cusor moves upwards.
-                if (startBlock.order > order) {
-                  // cursor moves up but still below the startBlock
-                  setStartBlock({
-                    top,
-                    order
-                  });
-                } else {
-                  setEndBlock({
-                    top,
-                    order
-                  });
-                }
-              }
+              // first set the endBlock to caculate the total height of the selected region
+              setEndBlock({
+                top,
+                order
+              });
+
+              // second, set the direction to find out which block to draw the region from
+              setDraggingDirection(
+                startBlock.order < order ? "downward" : "upward"
+              );
             }}
             onMouseUp={() => {
               setDragging(false);
