@@ -6,9 +6,7 @@ import { Block, HEIGHT } from "./DraggableRegion.types";
 const DraggableRegion: React.FC = () => {
   const [startBlock, setStartBlock] = useState<Block>();
   const [endBlock, setEndBlock] = useState<Block>();
-  const [draggingDirection, setDraggingDirection] = useState<
-    "upward" | "downward"
-  >();
+  const [draggingDirection, setDraggingDirection] = useState<"upward" | "downward">();
   const [dragging, setDragging] = useState<boolean>(false);
 
   let selectedRegionStyle: CSSProperties = {};
@@ -16,9 +14,7 @@ const DraggableRegion: React.FC = () => {
     selectedRegionStyle = {
       display: "block",
       top: draggingDirection === "downward" ? startBlock.top : endBlock.top,
-      height: `${
-        HEIGHT * Math.abs(endBlock.order - startBlock.order) + HEIGHT
-      }em`
+      height: `${HEIGHT * Math.abs(endBlock.order - startBlock.order) + HEIGHT}em`
     };
 
     if (dragging) {
@@ -66,9 +62,7 @@ const DraggableRegion: React.FC = () => {
               });
 
               // second, set the direction to find out which block to draw the region from
-              setDraggingDirection(
-                startBlock.order < order ? "downward" : "upward"
-              );
+              setDraggingDirection(startBlock.order < order ? "downward" : "upward");
             }}
             onMouseUp={() => {
               setDragging(false);
