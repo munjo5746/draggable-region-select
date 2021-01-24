@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { CSSProperties, useCallback, useState } from "react";
 import "./styles.css";
 
 type Block = {
@@ -22,6 +22,24 @@ export default function App() {
 
     return { top, order };
   }, []);
+  let selectedRegionStyle: CSSProperties = {};
+  if (startBlock && endBlock) {
+    selectedRegionStyle = {
+      display: "block",
+      top: startBlock.top,
+      height: `${HEIGHT * (endBlock.order - startBlock.order) + HEIGHT}em`
+    };
+
+    if (dragging) {
+      selectedRegionStyle = {
+        ...selectedRegionStyle,
+        pointerEvents: "none"
+      };
+    }
+  } else {
+    selectedRegionStyle = { display: "none" };
+  }
+
   return (
     <div className="App">
       {[...Array(6).keys()].map((num) => {
@@ -80,17 +98,7 @@ export default function App() {
         );
       })}
       <div
-        style={
-          startBlock && endBlock
-            ? {
-                display: "block",
-                top: startBlock.top,
-                height: `${
-                  HEIGHT * (endBlock.order - startBlock.order) + HEIGHT
-                }em`
-              }
-            : { display: "none" }
-        }
+        style={selectedRegionStyle}
         className="selected-region"
         onMouseUp={(e) => {
           e.preventDefault();
