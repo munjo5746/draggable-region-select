@@ -57,11 +57,21 @@ export default function App() {
                   order
                 });
               } else {
-                // swap start and end blocks
-                setStartBlock({
-                  top,
-                  order
-                });
+                // cursor stays on the same block as the endBlock
+                //  or cusor moves upwards.
+                if (startBlock.order > order) {
+                  console.log("up");
+                  // cursor moves up but still below the startBlock
+                  setStartBlock({
+                    top,
+                    order
+                  });
+                } else {
+                  setEndBlock({
+                    top,
+                    order
+                  });
+                }
               }
             }}
             onMouseUp={() => {
