@@ -60,7 +60,6 @@ export default function App() {
                 // cursor stays on the same block as the endBlock
                 //  or cusor moves upwards.
                 if (startBlock.order > order) {
-                  console.log("up");
                   // cursor moves up but still below the startBlock
                   setStartBlock({
                     top,
@@ -88,12 +87,19 @@ export default function App() {
                 top: startBlock.top,
                 height: `${
                   HEIGHT * (endBlock.order - startBlock.order) + HEIGHT
-                }em`,
-                pointerEvents: "none"
+                }em`
               }
             : { display: "none" }
         }
         className="selected-region"
+        onMouseUp={(e) => {
+          e.preventDefault();
+          // When user stops dragging and mouse up,
+          //  it actually happens on the selected-region.
+          // So we should set dragging to false here.
+
+          setDragging(false);
+        }}
       ></div>
     </div>
   );
