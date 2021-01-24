@@ -11,8 +11,6 @@ export default function App() {
   const [startBlock, setStartBlock] = useState<Block>();
   const [endBlock, setEndBlock] = useState<Block>();
   const [dragging, setDragging] = useState<boolean>(false);
-  const [numDragBlocks, setNumDragBlocks] = useState<number>(1);
-  const [regionHeight, setRegionHeight] = useState<number>(HEIGHT);
 
   const getBlockData = useCallback((div: HTMLDivElement) => {
     const { top } = div.getBoundingClientRect();
@@ -51,19 +49,19 @@ export default function App() {
               const element = e.target as HTMLDivElement;
               const { top, order } = getBlockData(element);
 
-              if (endBlock.order !== order) {
-                if (endBlock.order < order) {
-                  setEndBlock({
-                    top,
-                    order
-                  });
-                } else {
-                  // swap start and end blocks
-                  setStartBlock({
-                    top,
-                    order
-                  });
-                }
+              if (endBlock.order === order) return;
+
+              if (endBlock.order < order) {
+                setEndBlock({
+                  top,
+                  order
+                });
+              } else {
+                // swap start and end blocks
+                setStartBlock({
+                  top,
+                  order
+                });
               }
             }}
             onMouseUp={() => {
@@ -79,7 +77,7 @@ export default function App() {
                 display: "block",
                 top: startBlock.top,
                 height: `${
-                  regionHeight * (endBlock.order - startBlock.order) + HEIGHT
+                  HEIGHT * (endBlock.order - startBlock.order) + HEIGHT
                 }em`,
                 pointerEvents: "none"
               }
