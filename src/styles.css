@@ -19,13 +19,3 @@
   cursor: pointer;
   background: lightgray;
 }
-
-.selected-region {
-  position: absolute;
-  width: 95%;
-  height: 10em;
-
-  transform: translateX(-50%);
-  left: 50%;
-  background: darkcyan;
-}
