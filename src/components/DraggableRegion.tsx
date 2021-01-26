@@ -11,15 +11,16 @@ interface DraggableRegionProps {
 
 const DraggableRegion: React.FC<DraggableRegionProps> = (props) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  // const [cellHeight, setCellHeight] = useState<number>(0);
-  // useEffect(() => {
-  //   if (!containerRef.current) return;
+  const [cellHeight, setCellHeight] = useState<number>(0);
+  useEffect(() => {
+    if (!containerRef.current) return;
 
-  //   const { height } = containerRef.current.getBoundingClientRect();
-  //   setCellHeight(height / props.numOfCells!);
-  // }, [containerRef, props.numOfCells]);
+    const { height } = containerRef.current.getBoundingClientRect();
+    console.log("height", height);
+    setCellHeight(height / props.numOfCells!);
+  }, [containerRef, props.numOfCells]);
 
-  console.log(props);
+  console.log(cellHeight);
   const [startBlock, setStartBlock] = useState<Block>();
   const [endBlock, setEndBlock] = useState<Block>();
   const [draggingDirection, setDraggingDirection] = useState<"upward" | "downward">();
@@ -32,7 +33,7 @@ const DraggableRegion: React.FC<DraggableRegionProps> = (props) => {
       top: draggingDirection === "downward" ? startBlock.top : endBlock.top,
 
       // total selected region height + the current endblock height
-      height: `${HEIGHT * Math.abs(endBlock.order - startBlock.order) + HEIGHT}em`
+      height: `${cellHeight * Math.abs(endBlock.order - startBlock.order) + cellHeight}px`
     };
 
     if (dragging) {
