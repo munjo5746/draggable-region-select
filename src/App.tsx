@@ -13,7 +13,7 @@ export default function App() {
         border: "1px solid gray"
       }}
     >
-      <DraggableRegion numOfCells={8} />
+      <DraggableRegion numOfCells={10} />
     </div>
   );
 }
