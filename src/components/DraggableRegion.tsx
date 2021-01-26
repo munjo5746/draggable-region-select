@@ -65,7 +65,7 @@ const DraggableRegion: React.FC<DraggableRegionProps> = (props) => {
             data-order={num}
             onMouseDown={(e) => {
               const element = e.target as HTMLDivElement;
-              const { top, order } = getBlockData(element);
+              const { top, order } = getBlockData(element, cellDimension.height);
 
               setStartBlock({
                 top,
@@ -81,7 +81,7 @@ const DraggableRegion: React.FC<DraggableRegionProps> = (props) => {
               if (!dragging || !startBlock || !endBlock) return;
 
               const element = e.target as HTMLDivElement;
-              const { top, order } = getBlockData(element);
+              const { top, order } = getBlockData(element, cellDimension.height);
 
               if (endBlock.order === order) return;
 
