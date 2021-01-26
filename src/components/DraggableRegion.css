@@ -1,0 +1,31 @@
+.draggable-region {
+  /* position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0; */
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.draggable-region > div {
+  flex: 1;
+
+  border: 1px solid lightgray;
+}
+
+.draggable-region > div:hover:not(.selected-region) {
+  cursor: pointer;
+  background: lightgray;
+}
+
+.selected-region {
+  position: absolute;
+  width: 100%;
+  height: auto;
+}
