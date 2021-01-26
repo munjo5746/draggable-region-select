@@ -1,7 +1,7 @@
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
 
 import { getBlockData } from "./DraggableRegion.utils";
-import { Block, HEIGHT } from "./DraggableRegion.types";
+import { Block } from "./DraggableRegion.types";
 
 import "./DraggableRegion.css";
 
