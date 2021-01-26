@@ -9,7 +9,13 @@ interface DraggableRegionProps {
   numOfCells: number;
 }
 
-const DraggableRegion: React.FC<DraggableRegionProps> = (props) => {
+interface DraggableRegionHandlers {
+  onDragStart?: () => void;
+  onDragging?: () => void;
+  onDragEnd?: () => void;
+}
+
+const DraggableRegion: React.FC<DraggableRegionProps & DraggableRegionHandlers> = (props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [cellDimension, setCellDimension] = useState<{
     width: number;
@@ -76,6 +82,8 @@ const DraggableRegion: React.FC<DraggableRegionProps> = (props) => {
                 order
               });
               setDragging(true);
+
+              props.onDragStart?.();
             }}
             onMouseOver={(e) => {
               if (!dragging || !startBlock || !endBlock) return;
@@ -93,9 +101,13 @@ const DraggableRegion: React.FC<DraggableRegionProps> = (props) => {
 
               // second, set the direction to find out which block to draw the region from
               setDraggingDirection(startBlock.order < order ? "downward" : "upward");
+
+              props.onDragging?.();
             }}
             onMouseUp={() => {
               setDragging(false);
+
+              props.onDragEnd?.();
             }}
           ></div>
         );
