@@ -7,6 +7,7 @@ import "./DraggableRegion.css";
 
 interface DraggableRegionProps {
   numOfCells: number;
+  selectedRegionColor?: string;
 }
 
 interface DraggableRegionHandlers {
@@ -60,6 +61,13 @@ const DraggableRegion: React.FC<DraggableRegionProps & DraggableRegionHandlers> 
     }
   } else {
     selectedRegionStyle = { display: "none" };
+  }
+
+  if (props.selectedRegionColor) {
+    selectedRegionStyle = {
+      ...selectedRegionStyle,
+      backgroundColor: props.selectedRegionColor
+    };
   }
 
   return (
